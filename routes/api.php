@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
@@ -20,6 +21,12 @@ use App\Http\Controllers\PostController;
 Route::prefix('v1')->group(function () {
     Route::resource('/posts', PostController::class)->only([
         'index', 'show'
+    ]);
+
+    Route::get('/posts_by_sub/{name}', [PostController::class, 'getPostsBySub']);
+
+    Route::resource('/comments', CommentController::class)->only([
+    'index', 'show'
     ]);
 
     // requires token
