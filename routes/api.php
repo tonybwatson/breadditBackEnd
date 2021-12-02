@@ -26,8 +26,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/posts_by_sub/{name}', [PostController::class, 'getPostsBySub']);
 
     Route::resource('/comments', CommentController::class)->only([
-    'index', 'show'
+        'index', 'show'
     ]);
+
+    Route::get('/comments_by_post/{id}', [CommentController::class, 'getCommentsByPost']);
 
     // requires token
     Route::middleware('auth:api')->group(function () {

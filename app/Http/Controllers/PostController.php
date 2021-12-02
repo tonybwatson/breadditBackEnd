@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return PostResource::collection(Post::all());
+        return PostResource::collection(Post::with(['comments.user', 'user'])->get());
     }
 
     /**
@@ -91,7 +91,7 @@ class PostController extends Controller
     public function getPostsBySub(Request $request)
     {
         $sub = Subreaddit::where('name', '=', $request['name'])->get();
-        $posts = $sub->load('posts');
+        $posts = $sub->load(['posts.comments.user', 'posts.user']);
         return $posts[0]->posts->toArray();
     }
 }
