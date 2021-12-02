@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $user = User::create(1)([
+        $user = User::create()([
         'user_name' => 'user_name',
             'email' => 'email',
             'password' => 'password'
@@ -43,13 +43,13 @@ class UsersController extends Controller
     {
         // $faker = \Faker\Factory::create(1);
 
-        // $user = User::create([
-            // 'user_name' => 'user_name',
-            // 'email' => 'email',
-            // 'password' => 'password'
-        // ]);
+        $user = User::create([
+            'user_name' => 'user_name',
+            'email' => 'email',
+            'password' => 'password'
+        ]);
 
-        // return new UsersResource($user);
+        return new UserResource($user);
     }
 
     /**

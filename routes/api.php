@@ -3,7 +3,7 @@
 use App\Http\Controllers\CommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubreadditController;
 use App\Http\Controllers\PostController;
 
@@ -25,6 +25,10 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/posts_by_sub/{name}', [PostController::class, 'getPostsBySub']);
 
+    Route::resource('/users', UserController::class)->only([
+        'show'
+    ]);
+
     Route::resource('/comments', CommentController::class)->only([
         'index', 'show'
     ]);
@@ -38,10 +42,11 @@ Route::prefix('v1')->group(function () {
             'create', 'store', 'update', 'destroy'
         ]);
 
-        Route::get('/user', function (Request $request) {
-            return $request->user();
-        });
-        Route::apiResource('/users', UsersController::class);
+        Route::resource('/users', UserController::class)->only([
+            'create', 'store', 'update', 'destroy'
+        ]);
+
+
         Route::apiResource('/subreaddits', SubreadditController::class);
         // Route::apiResource('/posts', PostController::class);
     });
