@@ -29,12 +29,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = User::create()([
-        'user_name' => 'user_name',
-            'email' => 'email',
-            'password' => 'password'
-        ]);
-        return new UserResource($user);
+        // $user = User::create()([
+        // 'user_name' => 'user_name',
+        //     'email' => 'email',
+        //     'password' => 'password'
+        // ]);
+        // return new UserResource($user);
     }
 
     /**
@@ -43,17 +43,43 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+    //     $user = User::create([
+    //         'user_name' => $request->user_name,
+    //         'email' => $request->email,
+    //         'password' => $request->password,
+    //     ]);
+
+    //     return new UserResource($user);
+    // }
+    // register
     public function store(Request $request)
     {
-        // $faker = \Faker\Factory::create(1);
 
-        $user = User::create([
-            'user_name' => $request->user_name,
-            'email' => $request->email,
-            'password' => $request->password,
+        $validator = Validator::make($request->all(), [
+            // 'user_name' => 'required|user_name|max:20|unique:users,user_name',
+            'email' => 'required|email|max:64|unique:users,email',
+            'password' => 'required|string|min:8',
+            // add more validation cases if needed
+            // https://laravel.com/docs/8.x/validation
         ]);
 
-        return new UserResource($user);
+        if ($validator->fails()) {
+            return response(['message' => 'Validation errors', 'errors' =>  $validator->errors(), 'status' => false], 422);
+        }
+
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+        $user = User::create($input);
+
+        /**Take note of this: Your user authentication access token is generated here **/
+        $data['token'] =  $user->createToken('token')->accessToken;
+        // when we register, we also send the user data (you do not need to do this)
+        $data['user_data'] = $user;
+
+        // return response(['data' => $data, 'message' => 'Account created successfully!', 'status' => true]);
+        return new UserResource($data); // update the userResource to look at this specific data obj
     }
 
     /**
@@ -88,9 +114,9 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $user->update([
-            'user_name'=>$request->input('user_name'),
-            'email'=>$request->input('email'),
-            'password'=>$request->input('password')
+            'user_name' => $request->input('user_name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password')
         ]);
     }
 
@@ -106,7 +132,7 @@ class UserController extends Controller
         return response(null, 204);
     }
 
-    public function logout (Request $request)
+    public function logout(Request $request)
     {
         if (Auth::check()) {
             $request->user()->token()->revoke();
@@ -114,31 +140,5 @@ class UserController extends Controller
         } else {
             return response()->json(['error' => 'something went wrong'], 500);
         }
-    }
-
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'user_name' => 'required|user_name|max:20|unique:users',
-            'email' => 'required|email|max:64|unique:users',
-            'password' => 'required|string|min:8',
-            // add more validation cases if needed
-            // https://laravel.com/docs/8.x/validation
-        ]);
-
-        if ($validator->fails()) {
-            return response(['message' => 'Validation errors', 'errors' =>  $validator->errors(), 'status' => false], 422);
-        }
-
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
-
-        /**Take note of this: Your user authentication access token is generated here **/
-        $data['token'] =  $user->createToken('AincBootcampAPI')->accessToken;
-        // when we register, we also send the user data (you do not need to do this)
-        $data['user_data'] = $user;
-
-        return response(['data' => $data, 'message' => 'Account created successfully!', 'status' => true]);
     }
 }
