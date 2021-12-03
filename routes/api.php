@@ -26,7 +26,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/posts_by_sub/{name}', [PostController::class, 'getPostsBySub']);
 
     Route::resource('/users', UserController::class)->only([
-        'show'
+        'create', 'store', 'register', 'show'
     ]);
 
     Route::resource('/comments', CommentController::class)->only([
@@ -38,12 +38,14 @@ Route::prefix('v1')->group(function () {
     // requires token
     Route::middleware('auth:api')->group(function () {
 
+        Route::get('/logout', [UserController::class, 'logout']);
+
         Route::resource('/posts', PostController::class)->only([
             'create', 'store', 'update', 'destroy'
         ]);
 
         Route::resource('/users', UserController::class)->only([
-            'create', 'store', 'update', 'destroy'
+             'update', 'destroy'
         ]);
 
 
