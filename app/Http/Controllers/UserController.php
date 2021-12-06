@@ -43,16 +43,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     $user = User::create([
-    //         'user_name' => $request->user_name,
-    //         'email' => $request->email,
-    //         'password' => $request->password,
-    //     ]);
 
-    //     return new UserResource($user);
-    // }
     // register
     public function store(Request $request)
     {
@@ -79,7 +70,7 @@ class UserController extends Controller
         $data['user_data'] = $user;
 
         // return response(['data' => $data, 'message' => 'Account created successfully!', 'status' => true]);
-        return new UserResource($data); // update the userResource to look at this specific data obj
+        return new UserResource($data);
     }
 
     /**

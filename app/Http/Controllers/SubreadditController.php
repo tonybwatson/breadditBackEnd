@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Subreaddit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\SubreadditResource;
+use Illuminate\Support\Facades\Log;
 
 class SubreadditController extends Controller
 {
@@ -25,10 +27,10 @@ class SubreadditController extends Controller
      */
     public function create()
     {
-        $subreaddit = Subreaddit::create(1)([
-        'name' => 'name',
-        ]);
-        return new Subreaddit($subreaddit);
+        // $subreaddit = Subreaddit::create(1)([
+        // 'name' => 'name',
+        // ]);
+        // return new Subreaddit($subreaddit);
     }
 
     /**
@@ -39,13 +41,20 @@ class SubreadditController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3|max:21|unique:subreaddits,name',
+            // add more validation cases if needed
+            // https://laravel.com/docs/8.x/validation
+        ]);
+
+        if ($validator->fails()) {
+            return response(['message' => 'Validation errors', 'errors' =>  $validator->errors(), 'status' => false], 422);
+        }
+
         // $faker = \Faker\Factory::create(1);
-
-        // $subreaddit = Subreaddit::create([
-            // 'name' => 'name',
-        // ]);
-
-        // return new SubreadditsResource($subreaddit);
+        $input = $request->all();
+        $subreaddit = Subreaddit::create($input);
+        return new SubreadditResource($subreaddit);
     }
 
     /**
