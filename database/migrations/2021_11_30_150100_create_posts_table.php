@@ -27,6 +27,7 @@ class CreatePostsTable extends Migration
                 ->cascade('delete');
             $table->text('title');
             $table->text('content');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

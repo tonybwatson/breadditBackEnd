@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
+use App\Http\Controllers\Auth;
 use App\Models\Post;
 use App\Models\Subreaddit;
 use Illuminate\Support\Facades\Log;
@@ -50,7 +51,7 @@ class PostController extends Controller
 
         if ($validator->fails()) {
             return response(['message' => 'Validation errors', 'errors' =>
-                $validator->errors(), 'status' => false], 422);
+            $validator->errors(), 'status' => false], 422);
         }
 
         $input = $request->all();
@@ -101,15 +102,25 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Request $request)
     {
-        //
+        // if post that is being deleted is being done by admin of sub, admin of reddit, or post owner
+        $post = Post::find($request->post_id);
+        Log::debug($post);
+        $user_id = $request->user()->id;
+        if($post->user_id == $user_id){
+            //$post->authorize('delete', $post);
+            $post->delete();
+            return response($post, 200);
+        }
+        return response(null, 204);
     }
 
     public function getPostsBySub(Request $request)
     {
-        $sub = Subreaddit::where('name', '=', $request['name'])->get();
+        $sub = Subreaddit::where('name', '=', $request->name)->get();
+
         $posts = $sub->load(['posts.comments.user', 'posts.user']);
-        return $posts[0]->posts->toArray();
+        return ['subreaddit' => $sub, 'posts' => $posts[0]->posts->toArray()];
     }
 }

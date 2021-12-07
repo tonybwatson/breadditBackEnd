@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\CommentResource;
@@ -37,9 +38,23 @@ class CommentController extends Controller
      * @param  \App\Http\Requests\StoreCommentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCommentRequest $request)
+    public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|min:1',
+            // add more validation cases if needed
+            // https://laravel.com/docs/8.x/validation
+        ]);
 
+        if ($validator->fails()) {
+            return response(['message' => 'Validation errors', 'errors' =>  $validator->errors(), 'status' => false], 422);
+        }
+
+        // $faker = \Faker\Factory::create(1);
+        $input = $request->all();
+        $input["user_id"] = $request->user()->id;
+        $comment = Comment::create($input);
+        return new CommentResource($comment);
     }
 
     /**
@@ -84,7 +99,8 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return response(null, 204);
     }
 
     public function getCommentsByPost(Request $request)

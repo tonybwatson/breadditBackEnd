@@ -32,6 +32,7 @@ class CreateCommentsTable extends Migration
                 ->cascade('delete')
                 ->nullable();
             $table->text('content');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
