@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
@@ -38,9 +39,26 @@ class PostController extends Controller
      * @param  \App\Http\Requests\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:3',
+            'content' => 'required|min:5',
+            // add more validation cases if needed
+            // https://laravel.com/docs/8.x/validation
+        ]);
+
+        if ($validator->fails()) {
+            return response(['message' => 'Validation errors', 'errors' =>
+                $validator->errors(), 'status' => false], 422);
+        }
+
+        $input = $request->all();
+        $user = $request->user();
+        $input['user_id'] = $user->id;
+        $input['user_name'] = $user->name;
+        $post = Post::create($input);
+        return new PostResource($post);
     }
 
     /**
