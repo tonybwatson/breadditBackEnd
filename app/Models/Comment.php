@@ -12,6 +12,7 @@ class Comment extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['parent_id', 'post_id', 'user_id', 'content'];
+    protected $table = 'comments';
 
     public function post()
     {
@@ -29,4 +30,8 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    public function comment_votes()
+{
+    return $this->hasMany(CommentVotes::class);
+}
 }

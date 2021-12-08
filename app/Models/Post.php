@@ -13,7 +13,7 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = ['user_id', 'sub_id', 'title', 'content'];
-
+    protected $table = 'posts';
     protected $with = ['subreaddit'];
 
     /**
@@ -33,4 +33,8 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    public function post_votes()
+{
+    return $this->hasMany(PostVotes::class);
+}
 }

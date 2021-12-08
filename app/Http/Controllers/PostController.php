@@ -43,8 +43,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|min:3',
-            'content' => 'required|min:5',
+            'title' => 'required|min:5',
+            'content' => 'required|min:1',
             // add more validation cases if needed
             // https://laravel.com/docs/8.x/validation
         ]);

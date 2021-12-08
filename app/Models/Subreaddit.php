@@ -11,7 +11,7 @@ class Subreaddit extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
-
+    protected $table = 'subreaddits';
     /**
      * Get the subreaddit of the post.
      */

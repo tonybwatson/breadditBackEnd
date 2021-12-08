@@ -25,7 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
+    protected $table = 'users';
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -52,4 +52,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+    public function comment_votes()
+    {
+        return $this->hasMany(CommentVote::class);
+    }
+    public function post_votes()
+    {
+        return $this->hasMany(PostVote::class);
+    }
+
 }

@@ -17,5 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SubreadditSeeder::class);
         $this->call(PostSeeder::class);
         $this->call(CommentSeeder::class);
+        $this->call(VoteTypeSeeder::class);
+        $this->call(PostVoteSeeder::class);
+        $this->call(CommentVoteSeeder::class);
+
     }
 }
