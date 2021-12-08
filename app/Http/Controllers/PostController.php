@@ -57,7 +57,7 @@ class PostController extends Controller
         $input = $request->all();
         $user = $request->user();
         $input['user_id'] = $user->id;
-        $input['user_name'] = $user->name;
+        // $input['user_name'] = $user->name;
         $post = Post::create($input);
         return new PostResource($post);
     }

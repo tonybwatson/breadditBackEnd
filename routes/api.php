@@ -47,7 +47,7 @@ Route::prefix('v1')->group(function () {
         Route::delete('/posts', [PostController::class, 'destroy']);
 
         Route::resource('/users', UserController::class)->only([
-             'update', 'destroy'
+             'update', 'destroy', 'index'
         ]);
 
         Route::resource('/comments', CommentController::class)->only([
