@@ -28,7 +28,7 @@ class PostVoteController extends Controller
      */
     public function create()
     {
-       //
+        //
     }
 
     /**
@@ -37,11 +37,17 @@ class PostVoteController extends Controller
      * @param  \App\Http\Requests\StorePostVoteRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostVoteRequest $request)
+    public function store(Request $request)
     {
-        $input = $request->all();
-        $postVote = PostVote::create($input);
-        return new PostVoteResource($postVote);
+
+        $postVote = new PostVote();
+        $postVote->user_id = $request->user()->id;
+        $postVote->type_id = $request->type_id;
+        $postVote->post_id = $request->post_id;
+        $postVote->save();
+        return $postVote;
+        // return 'success';
+        // return $pvr;
     }
 
     /**
@@ -52,7 +58,7 @@ class PostVoteController extends Controller
      */
     public function show(PostVote $postVote)
     {
-         return $postVote;
+        return $postVote;
     }
 
     /**
