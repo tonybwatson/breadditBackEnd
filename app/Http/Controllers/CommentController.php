@@ -106,7 +106,7 @@ class CommentController extends Controller
     public function getCommentsByPost(Request $request)
     {
         $post = Post::where('id', '=', $request['post_id'])->get();
-        $comments = $post->load('posts');
+        $comments = $post->load('comments.user', 'comments.comment_votes.user');
         return $comments[0]->comments->toArray();
     }
 }

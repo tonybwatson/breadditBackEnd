@@ -21,7 +21,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        return PostResource::collection(Post::with(['comments.user', 'user', 'post_votes'])->get());
+        return PostResource::collection(Post::with(['comments.user',
+        'user',
+        'post_votes.user',
+        // 'comments.comment_votes.user',
+        ])->get());
     }
 
     /**
@@ -120,7 +124,11 @@ class PostController extends Controller
     {
         $sub = Subreaddit::where('name', '=', $request->name)->get();
 
-        $posts = $sub->load(['posts.comments.user', 'posts.user']);
+        $posts = $sub->load(['posts.comments.user',
+        'posts.user',
+        'posts.post_votes.user',
+        // 'comments.comment_votes.user'
+        ]);
         return ['subreaddit' => $sub, 'posts' => $posts[0]->posts->toArray()];
     }
 }
