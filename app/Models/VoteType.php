@@ -29,10 +29,10 @@ class VoteType extends Model
 
     public function comment()
     {
-        return $this->belongsTo(CommentVote::class);
+        return $this->belongsTo(CommentVote::class, 'type_id');
     }
     public function post()
     {
-        return $this->belongsTo(PostVote::class);
+        return $this->belongsTo(PostVote::class,'type_id');
     }
 }

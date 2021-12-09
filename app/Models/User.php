@@ -58,7 +58,7 @@ class User extends Authenticatable
     }
     public function post_votes()
     {
-        return $this->hasMany(PostVote::class);
+        return $this->hasMany(PostVote::class, 'type_id');
     }
 
 }

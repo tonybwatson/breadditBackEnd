@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\StorePostVoteRequest;
 use App\Http\Requests\UpdatePostVoteRequest;
 use App\Models\PostVote;
+use App\Models\Post;
 
 class PostVoteController extends Controller
 {
@@ -15,7 +17,7 @@ class PostVoteController extends Controller
      */
     public function index()
     {
-        //
+        return (PostVote::all());
     }
 
     /**
@@ -37,8 +39,8 @@ class PostVoteController extends Controller
     public function store(StorePostVoteRequest $request)
     {
         $input = $request->all();
-        $comment_vote = PostVote::create($input);
-        return new PostVote($comment_vote);
+        $post_vote = PostVote::create($input);
+        return new PostVote($post_vote);
     }
 
     /**
@@ -49,7 +51,7 @@ class PostVoteController extends Controller
      */
     public function show(PostVote $postVote)
     {
-        //
+         return $postVote;
     }
 
     /**
@@ -85,4 +87,13 @@ class PostVoteController extends Controller
     {
         //
     }
+
+
+    // public function getVotesByPost(Request $request)
+    // {
+    //     $posts = Post::where('post_id', '=', $request->id)->get();
+
+    //     $postvotes = $posts->load(['postvotes.post_id', 'postvotes.']);
+    //     return ['post' => $posts, 'postvotes' => $postvotes[0]->postvotes->toArray()];
+    // }
 }

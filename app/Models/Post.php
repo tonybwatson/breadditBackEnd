@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Subreaddit;
 use App\Models\User;
+use App\Models\PostVote;
 
 
 class Post extends Model
@@ -35,6 +36,6 @@ class Post extends Model
     }
     public function post_votes()
 {
-    return $this->hasMany(PostVotes::class);
+    return $this->hasMany(PostVote::class);
 }
 }

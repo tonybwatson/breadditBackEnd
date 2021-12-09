@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubreadditController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostVoteController;
 
 
 /*
@@ -20,9 +21,11 @@ use App\Http\Controllers\PostController;
 */
 
 Route::prefix('v1')->group(function () {
-    // Route::resource('/posts', PostController::class)->only([
-    //     'index', 'show'
-    // ]);
+    Route::resource('/posts', PostController::class)->only([
+        'index', 'show'
+    ]);
+
+    Route::get('/postvotes', [PostVoteController::class, 'index']);
 
     Route::get('/posts_by_sub/{name}', [PostController::class, 'getPostsBySub']);
 
@@ -41,9 +44,8 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/logout', [UserController::class, 'logout']);
 
-        Route::post('/posts', [PostController::class, 'store']);
-        Route::get('/posts', [PostController::class, 'index']);
         Route::put('/posts', [PostController::class, 'update']);
+        Route::post('/posts', [PostController::class, 'store']);
         Route::delete('/posts', [PostController::class, 'destroy']);
 
         Route::resource('/users', UserController::class)->only([
@@ -54,6 +56,7 @@ Route::prefix('v1')->group(function () {
             'create', 'store', 'update', 'destroy'
         ]);
 
+        Route::post('/postvotes', [PostVoteController::class, 'store']);
 
         Route::apiResource('/subreaddits', SubreadditController::class);
     });

@@ -15,7 +15,7 @@ class VoteTypeController extends Controller
      */
     public function index()
     {
-        //
+        return (VoteType::all());
     }
 
     /**
@@ -83,4 +83,5 @@ class VoteTypeController extends Controller
     {
         //
     }
+
 }

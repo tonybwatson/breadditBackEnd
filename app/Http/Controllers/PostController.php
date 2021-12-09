@@ -21,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return PostResource::collection(Post::with(['comments.user', 'user'])->get());
+        return PostResource::collection(Post::with(['comments.user', 'user', 'post_votes'])->get());
     }
 
     /**
