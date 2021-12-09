@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePostVoteRequest;
 use App\Http\Requests\UpdatePostVoteRequest;
+use App\Http\Resources\PostVoteResource;
 use App\Models\PostVote;
 use App\Models\Post;
 
@@ -39,8 +40,8 @@ class PostVoteController extends Controller
     public function store(StorePostVoteRequest $request)
     {
         $input = $request->all();
-        $post_vote = PostVote::create($input);
-        return new PostVote($post_vote);
+        $postVote = PostVote::create($input);
+        return new PostVoteResource($postVote);
     }
 
     /**

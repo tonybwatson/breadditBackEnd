@@ -42,7 +42,7 @@ class SubreadditController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:3|max:21|unique:subreaddits,name',
+            'name' => 'required|min:1|max:21|unique:subreaddits,name',
             // add more validation cases if needed
             // https://laravel.com/docs/8.x/validation
         ]);

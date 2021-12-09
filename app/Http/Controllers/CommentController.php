@@ -41,7 +41,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'content' => 'required|min:1',
+            'content' => 'required|min:1|max:40000',
             // add more validation cases if needed
             // https://laravel.com/docs/8.x/validation
         ]);
