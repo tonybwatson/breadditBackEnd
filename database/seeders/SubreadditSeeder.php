@@ -15,13 +15,13 @@ class SubreadditSeeder extends Seeder
     public function run()
     {
         $subreadditsArr = ['askBreaddit',
-        'askMeAnythingAboutBread',
-        'breadStapledToTrees', 'catsStandingOnBread',
-        'competitiveBaking', 'wholeGrain',
-        'bakespectationVsReality', 'iBakedThis',
+        'askMeAnything',
+        'breadJokes', 'funny',
+        'competitiveBaking', 'ryeProTips',
+        'sourdoughThoughts', 'iBakedThis',
         'sandwiches', 'agedLikeBread',
-        'breaderEveryLoop', 'wholesomeBreadMemes',
-        'wallStreetBreads', 'moldSchoolCool',
+        'news', 'wholesomeBreadMemes',
+        'wallStreetBreads', 'todayIBaked',
         'moldlyInteresting', 'toastMe'];
         for ($i = 0; $i < count($subreadditsArr); $i++) {
             $name = new Subreaddit;

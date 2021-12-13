@@ -30,6 +30,7 @@ class CreateCommentVotesTable extends Migration
                 ->references('id')
                 ->on('comments')
                 ->cascade('delete');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -40,7 +40,7 @@ class PostVoteController extends Controller
     public function store(Request $request)
     {
 
-        $postVote = new PostVote();
+        $postVote = new PostVote;
         $postVote->user_id = $request->user()->id;
         $postVote->type_id = $request->type_id;
         $postVote->post_id = $request->post_id;

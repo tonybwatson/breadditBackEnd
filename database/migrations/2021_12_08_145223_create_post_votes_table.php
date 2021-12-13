@@ -30,6 +30,7 @@ class CreatePostVotesTable extends Migration
                 ->references('id')
                 ->on('posts')
                 ->cascade('delete');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
